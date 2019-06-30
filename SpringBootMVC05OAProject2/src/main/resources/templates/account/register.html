@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册页面</title>
+<!-- 最新的 Bootstrap 核心 css 文件 -->
+<!-- 在url上 使用 @标签 可以帮我们 自动加上 contextpath -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script th:src="@{/js/common/jquery-3.4.1.min.js}" ></script>
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+<script type="text/javascript">
+	function register(){
+		var name=$("#name").val();
+		var password=$("#password").val();
+		var nickName=$("#nickName").val();
+		var age=$("#age").val();
+		var location=$("#location").val();
+		var roles=$("#roles").val();
+		var url = "/account/registerUser";
+		var args = {loginName:name,password:password,nickName:nickName,age:age,location:location,role:roles};
+		$.post(url,args,function(data){
+			console.debug(data);
+			if(data.code==500){
+				$('#Submit').data('content',data.msg);
+				$('#Submit').attr('title',"错误提示");
+				$('#Submit').popover('show');
+			}else if(data.code==200){
+				$('#Submit').data('content',data.msg);
+				$('#Submit').attr('title',"注册成功");
+				$('#Submit').popover('show');
+			    window.location.href="/account/login";
+			}
+		});
+		console.debug($("#location").val());
+	}
+</script>
+</head>
+<body>
+<form>
+  <div class="form-group">
+    <label for="exampleInputName2">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="JaneDoe">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password">
+  </div>
+<div class="form-group">
+    <label for="exampleInputName3">nickName</label>
+    <input type="text" class="form-control" id="nickName" placeholder="基恩">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputName4">age</label>
+    <input type="text" class="form-control" id="age" placeholder="18">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputName5">location</label>
+    <input type="text" class="form-control" id="location" placeholder="四川成都">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputName6">role</label>
+    <input type="text" class="form-control" id="roles" placeholder="user,admin">
+  </div>
+  <button type="button" onclick="register()" id="Submit" class="btn btn-default">Submit</button>
+</form>
+</body>
+</html>
